@@ -1,0 +1,16 @@
+{
+    "name": "docarley/lembretemvc",
+    "description": "\"Projeto pedagógico para demonstrar criação de API com php puro e MVC\"",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Docarley\\Lembretemvc\\": "api/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Arley"
+        }
+    ],
+    "require": {}
+}
