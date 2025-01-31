@@ -5,8 +5,11 @@
     "autoload": {
         "psr-4": {
             "Docarley\\Lembretemvc\\": "api/"
-        }
-    },
+        },
+        "files": [            
+            "api/config/config.php"
+        ]
+    },    
     "authors": [
         {
             "name": "Arley"

@@ -1,6 +1,7 @@
 <?php
 
 namespace Docarley\Lembretemvc\Core;
+
 class Router{
 
     private $controller;
@@ -15,12 +16,13 @@ class Router{
         
         $url = $this->parseURL();
 
-        // print_r($url);
+        print_r($url);
+        print_r($GLOBALS['api-base']);
 
-        if(file_exists("../App/Controllers/" . ucfirst($url[1]) . ".php")){
-
-            $this->controller = $url[1];
-            unset($url[1]);
+        if(file_exists($GLOBALS['api-base']. ucfirst($url[2]) ."Controller.php")){
+            $this->controller = $url[2];
+            print_r($url[2]);
+            unset($url[2]);
 
         }elseif(empty($url[2])){
             echo "Bem vindo à Lembrete API MVC - Versão 1.0.0 ";
@@ -28,7 +30,7 @@ class Router{
 
         }else{
             http_response_code(404);
-            echo json_encode(["erro" => "Recurso não encontrado"]);
+            echo json_encode(["erro" => "Recurso não encontrado"],JSON_UNESCAPED_UNICODE);
             exit;
         }
 
