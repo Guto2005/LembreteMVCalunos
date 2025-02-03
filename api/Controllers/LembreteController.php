@@ -10,8 +10,8 @@ class LembreteController extends Controller{
         echo json_encode(["Message"=>"Hello"],JSON_UNESCAPED_UNICODE);
     }
 
-    public function getAll(){
-        echo json_encode(["TODOS"=>"oiaaaaaaaaaaaaaaaaaa"],JSON_UNESCAPED_UNICODE);
+    public function getAll(int $id){
+        echo json_encode(["TODOS"=>"oiaaaaaaaaaaaaaaaaaa" . $id],JSON_UNESCAPED_UNICODE);
     }
 
 }
