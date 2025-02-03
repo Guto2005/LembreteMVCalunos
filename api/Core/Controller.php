@@ -5,7 +5,7 @@ namespace Docarley\Lembretemvc\Core;
 class Controller{
 
     public function model($model){
-        require_once "../App/Models/" . $model . ".php";
+        require_once $GLOBALS['api-base'] . $model . ".php";
         return new $model;
     }
 
