@@ -1,5 +1,5 @@
 {
-    "name": "docarley/lembretemvc",
+    "name": "docarley/lembretemvcalunos",
     "description": "\"Projeto pedagógico para demonstrar criação de API com php puro e MVC\"",
     "type": "project",
     "autoload": {

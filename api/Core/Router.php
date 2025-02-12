@@ -1,10 +1,6 @@
 <?php
 
 namespace Docarley\Lembretemvc\Core;
-
-
-
-
 class Router
 {
 
@@ -27,8 +23,7 @@ class Router
         // print_r($GLOBALS['api-base'] . ucfirst($url[2]) . "Controller.php");
 
         if (file_exists($GLOBALS['api-base'] . ucfirst($url[2]) . "Controller.php")) {
-            $this->controller = ucfirst($url[2]) . "Controller";
-            // print_r($url[2]);
+            $this->controller = ucfirst($url[2]) . "Controller";                   
             unset($url[2]);
         } elseif (empty($url[2])) {
             echo "Bem vindo à Lembrete API MVC - Versão 1.0.0 ";
@@ -38,11 +33,7 @@ class Router
             echo json_encode(["erro" => "Recurso não encontrado"], JSON_UNESCAPED_UNICODE);
             exit;
         }
-
-        // require_once __DIR__ . "/../../vendor/autoload.php";
-        // require_once "./api/Controllers/LembreteController.php";  
-
-        $this->controller = "\Docarley\Lembretemvc\Controllers\\" . $this->controller;
+        $this->controller = "\Docarley\Lembretemvc\Controllers\\" . $this->controller;       
 
         $this->controller = new $this->controller;
 
@@ -52,12 +43,11 @@ class Router
             case "GET":
 
                 if (isset($url[4])) {
-                    $this->controllerMethod = "getAll";
-                    $this->params = [$url[4]];
+                    $this->controllerMethod = "getLembretes";                 
+                    $this->params = [$url[4]]; 
                 } else {
                     $this->controllerMethod = "index";
                 }
-
                 break;
 
             case "POST":
