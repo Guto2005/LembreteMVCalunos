@@ -7,12 +7,37 @@ use Docarley\Lembretemvc\Core\Controller;
 class LembreteController extends Controller{
 
     public function index(){
-        echo json_encode(["Message"=>"Todos os Lembretes"],JSON_UNESCAPED_UNICODE);
+        $lembreteModel = $this->model("Lembrete");
+
+        if (!$lembreteModel) {
+            http_response_code(500);
+            echo json_encode(["error" => "Erro ao carregar o modelo Lembrete"], JSON_UNESCAPED_UNICODE);
+            return;
+        }
+
+        $lembretes = $lembreteModel->buscarTodos();
+        
+        if (isset($lembretes["error"])) {
+            http_response_code(500);
+        } else {
+            http_response_code(200);
+        }
+
+        echo json_encode($lembretes, JSON_UNESCAPED_UNICODE);
     }
 
-    public function getLembretes(int $id){
-        echo json_encode(["Testando"=>"id passado" . $id],JSON_UNESCAPED_UNICODE);
+    public function getLembrete(int $id){
+        $lembreteBuscado = $this->model("Lembrete");
+        $resultado=$lembreteBuscado->buscarPorId($id);
+        if (isset($resultado["error"])) {
+            http_response_code(500);
+            echo json_encode($resultado,JSON_UNESCAPED_UNICODE);
+        } else {
+            http_response_code(200);
+            echo json_encode($resultado,true);
+        }
     }
+
 
     public function store(){
        $dadosLembrete = $this->getRequestBody();
@@ -33,6 +58,19 @@ class LembreteController extends Controller{
         echo json_encode($resultado,true);
     }
 
+    }
+
+    public function delete($id){
+       
+        $lembrete = $this->model("Lembrete");      
+        $resultado = $lembrete->excluir($id);
+        if (isset($resultado["error"])) {
+            http_response_code(500);
+            echo json_encode($resultado,JSON_UNESCAPED_UNICODE);
+        } else {
+            http_response_code(200);
+            echo json_encode($resultado,true);
+        }  
     }
 
 }

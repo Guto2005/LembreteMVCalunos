@@ -3,6 +3,8 @@
 namespace Docarley\Lembretemvc\Models;
 
 use Docarley\Lembretemvc\Core\Model;
+
+use \Pdo;
 class Lembrete{
  
     private ?int $id;
@@ -93,5 +95,55 @@ class Lembrete{
             $array['error'] = 'Erro: Valores nulos ou inválidos!';
             return $array;
         }
+    }
+    public function buscarPorId($id) {
+        $id = filter_var($id, FILTER_VALIDATE_INT) ? $id : 0;
+        if (isset($id) && $id) {
+            $sql = "SELECT * FROM lembrete WHERE idLembrete=:id";
+            $stmt = Model::getConn()->prepare($sql);
+            $stmt->bindValue(":id", $id);
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+                $dadosDoLembrete = $stmt->fetch(PDO::FETCH_ASSOC);
+                $this->setId($dadosDoLembrete['idLembrete']);
+                $this->setTitulo($dadosDoLembrete['tituloLembrete']);
+                $this->setCorpo($dadosDoLembrete['corpoLembrete']);
+                return (array) $this;
+            } else {
+                $array['error'] = 'Erro: Não há lembretes com este id!';
+                return $array;
+            }
+        } else {
+            $array['error'] = 'Erro: Valores nulos ou inválidos!';
+            return $array;
+        }
+    }
+
+    public function buscarTodos() {
+        try {
+            $sql = "SELECT * FROM lembrete";
+            $stmt = Model::getConn()->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (\Throwable $th) {
+            return ['error' => "Erro: " . $th->getMessage()];
+        }
+    }
+
+    public function excluir($id){
+        $resultado = $this->buscarPorId($id);
+        if(!isset($resultado['error'])){
+              try {
+                $sql = "DELETE FROM Lembrete WHERE idLembrete=:id";
+                $stmt = Model::getConn()->prepare($sql);                    
+                $stmt->bindValue(":id", $id);
+                $stmt->execute();
+                return $resultado;
+            } catch (\Throwable $th) {
+                $array['error'] = "Erro: " . $th->getMessage();
+                return $array;
+            }
+        }
+        return $resultado;
     }
 }
